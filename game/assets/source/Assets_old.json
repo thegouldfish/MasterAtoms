@@ -1,0 +1,26 @@
+[
+	{
+		"file": "Backing.bmp",
+		"type": "compressed_tilemap"
+	},
+	{
+		"file": "atoms.bmp",
+		"custom": "psgcompr,bin,bin"
+	},
+	{
+		"file": "title.bmp",
+		"type": "compressed_tilemap"
+	},
+	{
+		"file": "PlayerSelectBacking.bmp",
+		"custom": "psgcompr,bin,bin"
+	},
+	{
+		"file": "MenuProfessors.bmp",
+		"custom": "psgcompr,bin,bin"
+	},
+	{
+		"file": "MenuCursor2.bmp",
+		"type": "compressed_sprite"
+	}
+]

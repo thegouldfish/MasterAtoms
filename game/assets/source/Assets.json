@@ -1,0 +1,529 @@
+[
+	{
+		"name": "TitleScreen",
+		"bank": 2,
+		"HandleTileIndex": true,
+		"assets": [
+			{
+				"file": "Tile_Animated.bmp",
+				"type": "compressed_tilemap"
+			}
+		]
+	},
+	{
+		"name": "PlayerSelect",
+		"bank": 2,
+		"HandleTileIndex": true,
+		"assets": [
+			{
+				"file": "PlayerSelectBacking.bmp",
+				"custom": "psgcompr,bin,bin"
+			},
+			{
+				"file": "MenuProfessors.bmp",
+				"custom": "psgcompr,bin,bin"
+			},
+			{
+				"file": "MenuCursor2.bmp",
+				"type": "compressed_sprite"
+			}
+		]
+	},
+	{
+		"name": "MainGame",
+		"bank": 3,
+		"HandleTileIndex": true,
+		"assets": [
+			{
+				"file": "Backing.bmp",
+				"type": "compressed_tilemap"
+			},
+			{
+				"file": "MiniProfessors.bmp",
+				"custom": "psgcompr,bin,bin"
+			},
+			{
+				"file": "ChallengeModeBacking.bmp",
+				"type": "compressed_tilemap"
+			},
+			{
+				"file": "Numbers.bmp",
+				"custom": "bin,,"
+			},
+			{
+				"file": "MiniAtoms.bmp",
+				"custom": "bin,,"
+			},
+			{
+				"file": "timer_bar.bmp",
+				"custom": "bin,,"
+			},
+			{
+				"file": "Paused.bmp",
+				"type": "uncompressed_sprite"
+			},
+			{
+				"file": "levelup.bmp",
+				"type": "uncompressed_sprite"
+			},
+			{
+				"file": "TimeLost.bmp",
+				"type": "uncompressed_sprite"
+			},
+			{
+				"file": "three.bmp",
+				"type": "uncompressed_sprite"
+			},
+			{
+				"file": "two.bmp",
+				"type": "uncompressed_sprite"
+			},
+			{
+				"file": "one.bmp",
+				"type": "uncompressed_sprite"
+			},
+			{
+				"file": "GameOverBacking.bmp",
+				"type": "compressed_tilemap",
+				"FullPalette": true
+			},
+			{
+				"file": "LargeNumbers.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "miniAtoms2.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			}
+		]
+	},
+	{
+		"name": "Winner_prof1",
+		"bank": 4,
+		"HandleTileIndex": false,
+		"assets": [
+			{
+				"file": "Winner_1_1.bmp",
+				"type": "compressed_tilemap"
+			},
+			{
+				"file": "Winner_2_1.bmp",
+				"type": "compressed_tilemap"
+			},
+			{
+				"file": "Winner_3_1.bmp",
+				"type": "compressed_tilemap"
+			}
+		]
+	},
+	{
+		"name": "Winner_prof2",
+		"bank": 5,
+		"HandleTileIndex": false,
+		"assets": [
+			{
+				"file": "Winner_4_1.bmp",
+				"type": "compressed_tilemap"
+			},
+			{
+				"file": "Winner_5_1.bmp",
+				"type": "compressed_tilemap"
+			},
+			{
+				"file": "Winner_6_1.bmp",
+				"type": "compressed_tilemap"
+			}
+		]
+	},
+	{
+		"name": "Winner_robot1",
+		"bank": 6,
+		"HandleTileIndex": false,
+		"assets": [
+			{
+				"file": "Winner_1_2.bmp",
+				"type": "compressed_tilemap"
+			},
+			{
+				"file": "Winner_2_2.bmp",
+				"type": "compressed_tilemap"
+			},
+			{
+				"file": "Winner_3_2.bmp",
+				"type": "compressed_tilemap"
+			}
+		]
+	},
+	{
+		"name": "Winner_robot2",
+		"bank": 7,
+		"HandleTileIndex": false,
+		"assets": [
+			{
+				"file": "Winner_4_2.bmp",
+				"type": "compressed_tilemap"
+			},
+			{
+				"file": "Winner_5_2.bmp",
+				"type": "compressed_tilemap"
+			},
+			{
+				"file": "Winner_6_2.bmp",
+				"type": "compressed_tilemap"
+			}
+		]
+	},
+	{
+		"name": "ModeSelect",
+		"bank": 8,
+		"HandleTileIndex": true,
+		"assets": [
+			{
+				"file": "SelectModeScreen.bmp",
+				"custom": "psgcompr,bin,bin"
+			},
+			{
+				"file": "modeSelectPointer.bmp",
+				"type": "compressed_sprite"
+			},
+			{
+				"file": "help_1.bmp",
+				"type": "compressed_tilemap"
+			},
+			{
+				"file": "help_1_1.bmp",
+				"type": "compressed_tilemap"
+			},
+			{
+				"file": "help_2.bmp",
+				"type": "compressed_tilemap"
+			},
+			{
+				"file": "help_3.bmp",
+				"type": "compressed_tilemap"
+			},
+			{
+				"file": "help_3_1.bmp",
+				"type": "compressed_tilemap"
+			},
+			{
+				"file": "help_4.bmp",
+				"type": "compressed_tilemap"
+			}
+		]
+	},
+	{
+		"name": "Animations_1",
+		"bank": 9,
+		"HandleTileIndex": true,
+		"assets": [
+			{
+				"file": "p1_idle_anim_1.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p1_idle_anim_2.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p1_idle_anim_3.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p1_idle_anim_4.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p1_grow_anim_1.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p1_grow_anim_2.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p1_grow_anim_3.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p1_grow_anim_4.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+
+
+
+			{
+				"file": "p2_idle_anim_1.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p2_idle_anim_2.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p2_idle_anim_3.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p2_idle_anim_4.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p2_grow_anim_1.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p2_grow_anim_2.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p2_grow_anim_3.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p2_grow_anim_4.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+
+
+			{
+				"file": "p3_idle_anim_1.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p3_idle_anim_2.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p3_idle_anim_3.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p3_idle_anim_4.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p3_grow_anim_1.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p3_grow_anim_2.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p3_grow_anim_3.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p3_grow_anim_4.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			}
+		]
+	},
+	{
+		"name": "Animations_1",
+		"bank": 10,
+		"HandleTileIndex": true,
+		"assets": [
+			{
+				"file": "p4_idle_anim_1.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p4_idle_anim_2.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p4_idle_anim_3.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p4_idle_anim_4.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p4_grow_anim_1.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p4_grow_anim_2.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p4_grow_anim_3.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p4_grow_anim_4.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+
+
+
+			{
+				"file": "p5_idle_anim_1.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p5_idle_anim_2.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p5_idle_anim_3.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p5_idle_anim_4.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p5_grow_anim_1.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p5_grow_anim_2.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p5_grow_anim_3.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p5_grow_anim_4.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p6_idle_anim_1.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p6_idle_anim_2.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p6_idle_anim_3.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p6_idle_anim_4.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p6_grow_anim_1.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p6_grow_anim_2.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p6_grow_anim_3.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "p6_grow_anim_4.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			}
+		]
+	}
+]

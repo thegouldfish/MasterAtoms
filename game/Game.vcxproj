@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <VCProjectVersion>16.0</VCProjectVersion>
+    <ProjectGuid>{F512656C-5557-48E4-8CBA-96DC1FAE0B37}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <ProjectName>Game</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Makefile</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <NMakeOutput>Project1.exe</NMakeOutput>
+    <NMakePreprocessorDefinitions>WIN32;_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <NMakeBuildCommandLine>powershell -ExecutionPolicy Bypass $(ProjectDir)build.ps1</NMakeBuildCommandLine>
+    <NMakeIncludeSearchPath>$(ProjectDir)..\devkitSMS\SMSlib\src;$(ProjectDir)..sdcc\include</NMakeIncludeSearchPath>
+    <OutDir />
+    <IntDir />
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <NMakeOutput>
+    </NMakeOutput>
+    <NMakePreprocessorDefinitions>_DEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <OutDir>output</OutDir>
+    <IntDir>output</IntDir>
+    <NMakeIncludeSearchPath>$(SolutionDir)..\devkitSMS\SMSlib\src</NMakeIncludeSearchPath>
+    <NMakeBuildCommandLine>powershell -ExecutionPolicy Bypass $(ProjectDir)Build.ps1 -Action "Build"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>powershell -ExecutionPolicy Bypass $(ProjectDir)Build.ps1 -Action "Rebuild"</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>powershell -ExecutionPolicy Bypass $(ProjectDir)Build.ps1 -Action "Clean"</NMakeCleanCommandLine>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <NMakeOutput>Project1.exe</NMakeOutput>
+    <NMakePreprocessorDefinitions>WIN32;NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <NMakeOutput>
+    </NMakeOutput>
+    <NMakePreprocessorDefinitions>NDEBUG;$(NMakePreprocessorDefinitions)</NMakePreprocessorDefinitions>
+    <OutDir>output</OutDir>
+    <IntDir>output</IntDir>
+    <NMakeBuildCommandLine>powershell -ExecutionPolicy Bypass $(ProjectDir)Build.ps1 -Action "Build"</NMakeBuildCommandLine>
+    <NMakeReBuildCommandLine>powershell -ExecutionPolicy Bypass $(ProjectDir)Build.ps1 -Action "Rebuild"</NMakeReBuildCommandLine>
+    <NMakeCleanCommandLine>powershell -ExecutionPolicy Bypass $(ProjectDir)Build.ps1 -Action "Clean"</NMakeCleanCommandLine>
+    <NMakeIncludeSearchPath>$(SolutionDir)..\devkitSMS\SMSlib\src</NMakeIncludeSearchPath>
+  </PropertyGroup>
+  <ItemDefinitionGroup>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="src\fixed.c" />
+    <ClCompile Include="src\GamePlay.c" />
+    <ClCompile Include="src\main.c" />
+    <ClCompile Include="src\PadHelper.c" />
+    <ClCompile Include="src\SimpleState.c" />
+    <ClCompile Include="src\sms.c" />
+    <ClCompile Include="src\States\ChallengeModeState.c" />
+    <ClCompile Include="src\States\GameOverState.c" />
+    <ClCompile Include="src\States\GamePlayClassicState.c" />
+    <ClCompile Include="src\States\HelpState.c" />
+    <ClCompile Include="src\States\ModeSelectState.c" />
+    <ClCompile Include="src\States\PlayerSelectState.c" />
+    <ClCompile Include="src\States\TestState.c" />
+    <ClCompile Include="src\States\TitleScreenState.c" />
+    <ClCompile Include="src\States\WinnerState.c" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\source\Assets.json" />
+    <None Include="build.ps1" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\bank2.h" />
+    <ClInclude Include="src\bank3.h" />
+    <ClInclude Include="src\bank4.h" />
+    <ClInclude Include="src\bank5.h" />
+    <ClInclude Include="src\bank6.h" />
+    <ClInclude Include="src\bank7.h" />
+    <ClInclude Include="src\fixed.h" />
+    <ClInclude Include="src\game.h" />
+    <ClInclude Include="src\GamePlay.h" />
+    <ClInclude Include="src\gfx.h" />
+    <ClInclude Include="src\gfxTileCount.h" />
+    <ClInclude Include="src\PadHelper.h" />
+    <ClInclude Include="src\SimpleState.h" />
+    <ClInclude Include="src\sms.h" />
+    <ClInclude Include="src\States\ChallengeModeState.h" />
+    <ClInclude Include="src\States\GameOverState.h" />
+    <ClInclude Include="src\States\GamePlayClassicState.h" />
+    <ClInclude Include="src\States\HelpState.h" />
+    <ClInclude Include="src\States\ModeSelectState.h" />
+    <ClInclude Include="src\States\PlayerSelectState.h" />
+    <ClInclude Include="src\States\TestState.h" />
+    <ClInclude Include="src\States\TitleScreenState.h" />
+    <ClInclude Include="src\States\WinnerState.h" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
