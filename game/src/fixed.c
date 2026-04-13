@@ -1,33 +1,33 @@
 #include "fixed.h"
 
-inline fix32 F32_div(fix32 val1, fix32 val2)
+inline fixed Fixed_div(fixed val1, fixed val2)
 {
-    fix32 v1 = val1 << (FIX32_FRAC_BITS / 2);
-    fix32 v2 = val2 >> (FIX32_FRAC_BITS / 2);
+    fixed v1 = val1 << (FIXED_FRAC_BITS / 2);
+    fixed v2 = val2 >> (FIXED_FRAC_BITS / 2);
 
     return v1 / v2;
 }
 
 
-inline fix32 F32_mul(fix32 val1, fix32 val2)
+inline fixed Fixed_mul(fixed val1, fixed val2)
 {
-    fix32 v1 = val1 >> (FIX32_FRAC_BITS / 2);
-    fix32 v2 = val2 >> (FIX32_FRAC_BITS / 2);
+    fixed v1 = val1 >> (FIXED_FRAC_BITS / 2);
+    fixed v2 = val2 >> (FIXED_FRAC_BITS / 2);
 
     return v1 * v2;
 }
 
-inline s32 F32_toInt(fix32 value)
+inline fixed Fixed_toInt(fixed value)
 {
-    return value >> FIX32_FRAC_BITS;
+    return value >> FIXED_FRAC_BITS;
 }
 
-inline fix32 F32_fromInt(s32 value)
+inline fixed Fixed_fromInt(fixed value)
 {
-    return value << FIX32_FRAC_BITS;
+    return value << FIXED_FRAC_BITS;
 }
 
-inline fix32 F32_frac(fix32 value)
+inline fixed Fixed_frac(fixed value)
 {
-    return value & FIX32_FRAC_MASK;
+    return value & FIXED_FRAC_MASK;
 }

@@ -36,9 +36,9 @@ static u8 _GameState = CHALLENGEMODE_STATE_PLAY;
 
 static u8 _LevelNeeded = 2;
 
-static fix32 _InitalLevelingAmount = FIX32(2.0);
-static fix32 _LevelBoosting = FIX32(1.25);
-static fix32 _LevelingAmount;
+static fixed _InitalLevelingAmount = FIXED(2.0);
+static fixed _LevelBoosting = FIXED(1.25);
+static fixed _LevelingAmount;
 
 
 static s8 _AtomNeededCount[7];
@@ -47,16 +47,19 @@ static u8 _NextAtom;
 static u8 _CurrentAtom;
 
 
-static const fix32 _InitalMaxTime = FIX32(70.0);
-static const fix32 _InitalTimePerExplosion = FIX32(1.5);
+static const fixed _InitalMaxTime = FIXED(70.0);
+static const fixed _InitalTimePerExplosion = FIXED(1.5);
 
 
-static fix32 _Time;
-static fix32 _MaxTime;
-static fix32 _MaxTimeDecrease = FIX32(0.85);
-static fix32 _TimePerExplosion;
-static fix32 _TimePenaty = FIX32(0.60);
-static fix32 _TimeTick = FIX32(0.01666); // about 1/60 of a second, 
+static fixed _Time;
+static fixed _MaxTime;
+static fixed _MaxTimeDecrease = FIXED(0.85);
+static fixed _TimePerExplosion;
+static fixed _TimePenaty = FIXED(0.60);
+static fixed _TimeTick = FIXED(0.01666); // about 1/60 of a second, 
+
+
+
 
 
 static float _Multiplier = 1;
@@ -87,7 +90,7 @@ static u16 _Buffer[10];
 
 
 static u8 _DrawUpdateState = 0;
-
+static u8 _MiniFlash = 0;
 
 #define INFOSPRITE_COUNT 32
 static char _InfoSprite[INFOSPRITE_COUNT];
@@ -106,7 +109,9 @@ static char _InfoSprite[INFOSPRITE_COUNT];
 
 static s8 _Anim = 0;
 
-
+#define SCORE_DIGITS 6
+#define SCORE_ADDER 5
+static u8 _ScoreBank[SCORE_DIGITS];
 
 static void Draw2DigitNumber(int number, u8 x, u8 y)
 {
@@ -148,6 +153,8 @@ static void DrawXDigitNumber(u32 number, u8 digit, u8 x, u8 y)
 		{
 			numbs[i] = 9;
 		}
+		SMS_loadTileMap(x, y, _Buffer, digit * 2);
+		return;
 	}
 
 	if (digit > 6)
@@ -175,26 +182,53 @@ static void SetScore(u32 number)
 {
 	s16 numbs[6] = {0,0,0,0,0,0};
 
-	if (number > 999999)
+	if (Score > 999999)
 	{
 		for (int i = 0; i < 6; i++)
 		{
-			numbs[i] = 9;
+			_Buffer[i] = NUMBERS_TILE_INDEX + 9;
 		}
 	}
+	else
+	{
+		s8 current = SCORE_ADDER;
+		s8 next = current - 1;
 
-	int i = 5;
-	while (number > 0)
-	{
-		numbs[i] = (number % 10);
-		number /= 10;
-		i--;
+		do
+		{
+			if (_ScoreBank[current] >= 10)
+			{
+				if (next >= 0)
+				{
+					_ScoreBank[current] -= 10;
+					++_ScoreBank[next];
+				}
+				else
+				{
+					_ScoreBank[current] = 9;
+				}
+			}
+			else
+			{
+				_Buffer[current] = NUMBERS_TILE_INDEX + _ScoreBank[current];
+				--current;
+				--next;
+			}
+		} while (current >= 0);
 	}
-	
-	for (int i = 0; i < 6; i++)
-	{
-		_Buffer[i] = NUMBERS_TILE_INDEX + numbs[i];		
-	}
+
+	//int i = 5;
+	//while (number > 0)
+	//{
+	//	numbs[i] = (number % 10);
+	//	number /= 10;
+	//	i--;
+	//}
+	//
+	//for (int i = 0; i < 6; i++)
+	//{
+	//	_Buffer[i] = NUMBERS_TILE_INDEX + numbs[i];		
+	//}
 
 	SMS_loadTileMap(2, 0, _Buffer, 12);
 }
@@ -219,7 +253,7 @@ static void HideInfoSprites()
 #define INFO_SPRITE_ONE 5
 
 
-static void ShowInfoSprites(u8 message)
+static void ShowInfoSprites(u8 message) 
 {
 	u16 x = 96;
 	u16 y = 80;
@@ -411,8 +445,8 @@ static void SetupLevel()
 {
 	if (CurrentLevel > 0)
 	{
-		_MaxTime = F32_mul(_MaxTime, _MaxTimeDecrease);
-		_TimePerExplosion = F32_mul(_TimePerExplosion, _MaxTimeDecrease);
+		_MaxTime = Fixed_mul(_MaxTime, _MaxTimeDecrease);
+		_TimePerExplosion = Fixed_mul(_TimePerExplosion, _MaxTimeDecrease);
 	}
 
 	CurrentLevel++;
@@ -426,7 +460,7 @@ static void SetupLevel()
 	RandomiseGrid();
 
 	_LevelingAmount = _LevelingAmount + _LevelBoosting;
-	_LevelNeeded += F32_toInt(_LevelingAmount);
+	_LevelNeeded += Fixed_toInt(_LevelingAmount);
 
 	// Cap at 99 for now as that is the max number we can show with just 2 number slots
 	if (_LevelNeeded > 99)
@@ -507,11 +541,12 @@ static s8 CheckForSpace()
 
 static void UpdateTime()
 {
-	u16 whole = F32_toInt(_Time);
-	u16 frac = F32_frac(_Time);
+	u16 whole = Fixed_toInt(_Time);
+	u16 frac = (Fixed_frac(_Time) / 255.0f) * 99;
 
 	Draw2DigitNumber(whole, 25, 0);
-	DrawXDigitNumber(frac,3, 28, 0);
+	Draw2DigitNumber(frac, 28, 0);
+	//DrawXDigitNumber(frac,3, 28, 0);
 }
 
 
@@ -596,7 +631,11 @@ static void AnimateScreen()
 
 				_Time += _TimePerExplosion;
 
-				Score += (int)(_Multiplier * _ScorePerExplotion);
+				u8 toAdd = (int)(_Multiplier * _ScorePerExplotion);
+
+				Score += toAdd;
+				_ScoreBank[SCORE_ADDER] += toAdd;
+
 				_Exploded = 1;
 			}
 			else if (size == 5)
@@ -708,9 +747,11 @@ static void AnimateScreen()
 
 static void FlashMiniAtom()
 {
+	_MiniFlash++;
 	u16 buffer[1];
-	if (_Anim % 6 == 0)
+	if (_MiniFlash == 5)
 	{
+		_MiniFlash = 0;
 		if (_AnimCounter == 0)
 		{
 			buffer[0] = ATOMS_TILE_INDEX + _CurrentAtom - 1;
@@ -783,6 +824,7 @@ static void Enter()
 	for (int i = 0; i < 32; i++)
 	{
 		*itr = SMS_addSprite(i*8, 0, c);
+		SMS_hideSprite(*itr);
 		itr++;
 		c++;
 	}
@@ -793,9 +835,9 @@ static void Enter()
 	GridSetup();
 
 	//setRandomSeed(5);
-	RndPump = 5;
+	//RndPump = 5;
 
-	setRandomSeed(RndPump * random());
+	setRandomSeed(RndPump);
 	SetupRandom(0);
 	_LevelingAmount = _InitalLevelingAmount;
 	_LevelNeeded = 2;
@@ -813,9 +855,8 @@ static void Enter()
 
 	_GameState = CHALLENGEMODE_STATE_COUNTDOWN;
 
-	NextAtom();
-	
-	SMS_loadSpritePalette(MenuCursor2_palette_bin);
+	//NextAtom();
+
 
 	for (int i = 0; i < 6; i++)
 	{
@@ -827,158 +868,47 @@ static void Enter()
 
 	_Anim = 0;
 	Score = 0;
+
+	for (int i = 0; i < SCORE_DIGITS; i++)
+	{
+		_ScoreBank[i] = 0;
+	}
+
 	CurrentLevel = 0;
 
-	NextAtom();
 
+
+	_MiniFlash = 0;
 	//DrawGameGrid();
 	SetScore(Score);
 	UpdateNumbers();
 	Draw2DigitNumber((u32)_Multiplier, 2, 1);
 
-	
+		
 	ShowInfoSprites(INFO_SPRITE_THREE);
+
+
+
+	
+	HideCursor();
+
 	_CountDown = 3;
 	_levelWait = WAITFORCOUNTDOWN;
 
 
+	DrawGameGrid2();
 
+	SMS_mapROMBank(2);
+	SMS_loadSpritePalette(MenuCursor2_palette_bin);
+	SMS_setSpritePaletteColor(0, 0);
 	SMS_loadBGPaletteHalfBrightness(_Palette);
 	PSGSFXPlay(hitHurt0_psg, 0);
 
 	ResetPads();
+
+	NextAtom();
 }
 
-
-
-
-
-static u16 buffer[4];
-void DrawAtom2(GridSquare* square)
-{
-	s8 size = square->Size;
-
-
-	if (square->Player ==  0)
-	{
-		// Tile 0 is the blank tile
-		buffer[0] = 0;
-		buffer[1] = 0;
-		buffer[2] = 0;
-		buffer[3] = 0;
-	}
-	else
-	{
-		u16 start = 0;
-		u16 offset = 0;
-
-		if (square->ChangeAnim == 0)
-		{			
-			// special case
-			if (size == 5)
-			{
-				start = ANIMATED_TILE_INDEX + _Grow[size - 2] + _TileOffset[square->Player];
-				offset = 8;
-			}
-			// Critical
-			else if (size + 1 == square->MaxSize)
-			{
-				start = ANIMATED_TILE_INDEX + _CritialIndex[size - 1] + _TileOffset[square->Player];
-				offset = 10;
-			}
-			// idle size
-			else
-			{
-				start = ANIMATED_TILE_INDEX + _IdleIndex[size - 1] + _TileOffset[square->Player];
-				offset = 10;
-			}
-		}
-		else
-		{
-			if (size == 5)
-			{
-				size--;
-			}
-
-			// Grow
-			start = ANIMATED_TILE_INDEX + _Grow[size - 1] + _TileOffset[square->Player];
-			offset = 8;
-		}
-
-		buffer[0] = start;
-		buffer[1] = start + 1;
-		buffer[2] = start + offset;
-		buffer[3] = start + offset + 1;
-	}
-	SMS_loadTileMapArea(square->TileX, square->TileY, buffer, 2, 2);
-}
-
-static void DrawGameGrid3()
-{
-	GridSquare* square = _PlayerGrid;
-	GridSquare* end = _PlayerGrid + 70;
-	for (;square != end;square++)
-	{
-		if (square->Animate != 0)
-		{
-			s8 size = square->Size;
-
-			if (square->Player == 0)
-			{
-				// Tile 0 is the blank tile
-				buffer[0] = 0;
-				buffer[1] = 0;
-				buffer[2] = 0;
-				buffer[3] = 0;
-			}
-			else
-			{
-				u16 start = 0;
-				u16 offset = 0;
-
-				if (square->ChangeAnim == 0)
-				{
-					// special case
-					if (size == 5)
-					{
-						start = ANIMATED_TILE_INDEX + _Grow[size - 2] + _TileOffset[square->Player];
-						offset = 8;
-					}
-					// Critical
-					else if (size + 1 == square->MaxSize)
-					{
-						start = ANIMATED_TILE_INDEX + _CritialIndex[size - 1] + _TileOffset[square->Player];
-						offset = 10;
-					}
-					// idle size
-					else
-					{
-						start = ANIMATED_TILE_INDEX + _IdleIndex[size - 1] + _TileOffset[square->Player];
-						offset = 10;
-					}
-				}
-				else
-				{
-					if (size == 5)
-					{
-						size--;
-					}
-
-					// Grow
-					start = ANIMATED_TILE_INDEX + _Grow[size - 1] + _TileOffset[square->Player];
-					offset = 8;
-				}
-
-				buffer[0] = start;
-				buffer[1] = start + 1;
-				buffer[2] = start + offset;
-				buffer[3] = start + offset + 1;
-			}
-			SMS_loadTileMapArea(square->TileX, square->TileY, buffer, 2, 2);
-			square->Animate = 0;
-		}
-	}
-}
 
 static void Update()
 {
@@ -1013,8 +943,13 @@ static void Update()
 		case CHALLENGEMODE_STATE_ANIMATE:
 			HideCursor();
 			AnimateScreen();
-			_AnimTimer = 22;
+			_AnimTimer = 20;
 			_AnimCounter = 0;
+
+			SetNumber(_AtomNeededCount[_CurrentAtom], (_CurrentAtom-1));
+
+			SetScore(Score);
+			Draw2DigitNumber((u32)_Multiplier, 2, 1);
 			break;
 
 		case CHALLENGEMODE_STATE_ANIMATE_WAIT:
@@ -1088,17 +1023,28 @@ static void Update()
 				SetupLevel();
 				SetupRandom(0);
 				HideCursor();
+
+				
 			}
+
 			if (_levelWait < 0)
 			{
 				SMS_loadBGPalette(_Palette);
 				HideInfoSprites();
 
 				_GameState = CHALLENGEMODE_STATE_PLAY;
+				_DrawUpdateState == 2;
+
 				_Anim = 0;
 				_levelWait = WAITFOR + 1;
 				UpdateCursor();
+				
+				for (int i = 0; i < 6; i++)
+				{
+					SetNumber(_AtomNeededCount[i + 1], i);
+				}
 			}
+
 			_levelWait--;
 			break;
 
@@ -1112,7 +1058,7 @@ static void Update()
 				SetupRandom(_CurrentAtom);
 				HideCursor();
 				_Multiplier = 1;
-				_Time = F32_mul(_Time, _TimePenaty);
+				_Time = Fixed_mul(_Time, _TimePenaty);
 			}
 			if (_levelWait < 0)
 			{
@@ -1197,29 +1143,9 @@ static void Update()
 
 		DrawGameGrid2();
 		
-		// Updating these every frame can be a bit slow
-		// so space them out over 3
-		if (_DrawUpdateState == 0)
-		{
-			for (int i = 0; i < 6; i++)
-			{
-				SetNumber(_AtomNeededCount[i + 1], i);
-			}
-		}
-
-		if (_DrawUpdateState == 1)
-		{
-			SetScore(Score);
-		}
-
 		if (_DrawUpdateState == 2)
 		{
 			UpdateTime();
-		}
-
-		if (_DrawUpdateState == 3)
-		{
-			Draw2DigitNumber((u32)_Multiplier, 2, 1);
 		}
 
 		_DrawUpdateState++;

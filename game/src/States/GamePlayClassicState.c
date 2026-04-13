@@ -30,6 +30,7 @@ static u8 _GameState = STATE_PLAY;
 
 static s8 _GameFinished;
 static s8 _Alive[7];
+static s8 _Counts[7];
 
 static Point _CursorPositions[7];
 
@@ -38,6 +39,8 @@ static u8 _AnimCounter = 0;
 static u8 _Anim = 0;
 static unsigned char _Palette[16];
 static unsigned char _Palette2[16];
+
+static s8 _MiniFlash = 0;
 
 static void SetupGame()
 {
@@ -97,6 +100,82 @@ static void LineIRQ()
 	}
 }
 
+static u8 _ProgressPlaces[6] = { 5, 9, 13, 17, 21, 25 };
+
+#define NUMBER_TILE_INDEX Backing_TILECOUNT
+#define ATOM_PROGRESS_1_INDEX Backing_TILECOUNT + Numbers_TILECOUNT
+#define ATOM_PROGRESS_2_INDEX Backing_TILECOUNT + Numbers_TILECOUNT + atom_progress_1_TILECOUNT
+#define ATOM_PROGRESS_3_INDEX Backing_TILECOUNT + Numbers_TILECOUNT + atom_progress_1_TILECOUNT + + atom_progress_2_TILECOUNT
+
+static s16 _Buffer[3];
+static void Draw2DigitNumber(int number, s16* buffer)
+{
+	if (number > 99)
+	{
+		buffer[0] = NUMBER_TILE_INDEX + 9;
+		buffer[1] = NUMBER_TILE_INDEX + 9;
+	}
+	else if (number > 9)
+	{
+		int count = 0;
+
+		while (number > 9)
+		{
+			number -= 10;
+			count++;
+		}
+
+		buffer[0] = NUMBER_TILE_INDEX + count;
+		buffer[1] = NUMBER_TILE_INDEX + number;
+	}
+	else
+	{
+		buffer[0] = NUMBER_TILE_INDEX;
+		buffer[1] = NUMBER_TILE_INDEX + number;
+	}	
+}
+
+
+static void UpdateProgress()
+{
+	for (u8 j = 0; j < 7; j++)
+	{
+		_Counts[j] = 0;
+	}
+
+	for (GridSquare* it = _PlayerGrid; it != _PlayerGrid + 70; it++)
+	{
+		if (it->Size == 5)
+		{
+			_Counts[it->Player] += it->MaxSize;
+		}
+		else
+		{
+			_Counts[it->Player] += it->Size;
+		}
+
+	}
+
+	for (int i = 1; i < 7; i++)
+	{
+		if(PlayerSetup[i] != 0)
+		{
+			if (_Alive[i])
+			{
+				_Buffer[0] = ATOM_PROGRESS_1_INDEX + i - 1;
+				Draw2DigitNumber(_Counts[i], _Buffer +1);
+			}
+			else
+			{
+				_Buffer[0] = ATOM_PROGRESS_3_INDEX + i - 1;
+				Draw2DigitNumber(_Counts[i], _Buffer + 1);
+			}
+
+			SMS_loadTileMap(_ProgressPlaces[i - 1], 1, _Buffer, 6);
+		}		
+	}
+}
+
 
 static void Enter()
 {
@@ -106,7 +185,13 @@ static void Enter()
 	SMS_loadPSGaidencompressedTiles(Backing_tiles_psgcompr, 0);
 	SMS_loadSTMcompressedTileMap(0, 0, Backing_tileMap_stmcompr);
 
-	SMS_loadPSGaidencompressedTiles(MiniProfessors_tiles_psgcompr, Backing_TILECOUNT);
+	SMS_loadTiles(Numbers_tiles_bin, NUMBER_TILE_INDEX, Numbers_tiles_bin_size);
+	SMS_loadTiles(atom_progress_1_tiles_bin, ATOM_PROGRESS_1_INDEX, atom_progress_1_tiles_bin_size);
+	SMS_loadTiles(atom_progress_2_tiles_bin, ATOM_PROGRESS_2_INDEX, atom_progress_1_tiles_bin_size);
+	SMS_loadTiles(atom_progress_3_tiles_bin, ATOM_PROGRESS_3_INDEX, atom_progress_1_tiles_bin_size);
+
+
+
 
 	for (u8 i = 0; i < 16; i++)
 	{
@@ -164,7 +249,7 @@ static void Enter()
 
 	SMS_mapROMBank(2);
 	SMS_loadSpritePalette(MenuCursor2_palette_bin);
-	
+	SMS_setSpritePaletteColor(0, _Palette[0]);
 	SMS_mapROMBank(3);
 
 
@@ -172,8 +257,16 @@ static void Enter()
 	SMS_loadBGPalette(_Palette);
 
 	setRandomSeed(RndPump * random());
-
+	SMS_setSpritePaletteColor(0, 0);
 	_Anim = 0;
+
+	for (int i = 0; i < 7; i++)
+	{
+		_Counts[i] = 0;
+	}
+
+	UpdateProgress();
+	_MiniFlash = 0;
 
 	//SMS_setLineInterruptHandler(LineIRQ);
 	//
@@ -262,6 +355,7 @@ static void PlayerInput()
 				// change logic
 				_GameState = STATE_ANIMATE;
 				_Anim = 0;
+				_MiniFlash = 0;
 				return;
 			}
 		}
@@ -339,6 +433,27 @@ void AIInput()
 }
 
 
+static void FlashMiniAtom()
+{	
+	u16 buffer[1];
+	if (_MiniFlash == 0)
+	{
+		buffer[0] = ATOM_PROGRESS_1_INDEX + _CurrentPlayer - 1;
+		SMS_loadTileMap(_ProgressPlaces[_CurrentPlayer - 1], 1, buffer, 2);
+	}
+	if (_MiniFlash == 5)
+	{
+		buffer[0] = ATOM_PROGRESS_2_INDEX + _CurrentPlayer - 1;
+		SMS_loadTileMap(_ProgressPlaces[_CurrentPlayer - 1], 1, buffer, 2);
+	}
+	else if (_MiniFlash == 9)
+	{
+		_MiniFlash = -1;
+	}
+	
+	_MiniFlash++;
+}
+
 static void AnimateScreen()
 {
 	u8 animating = 1;
@@ -398,7 +513,7 @@ static void AnimateScreen()
 			int i = (y * 10) + x;
 
 			u16 size = _PlayerGrid[i].Size;
-			u16 player = _PlayerGrid[i].Player;
+			u16 player = _PlayerGrid[i].Player;			
 
 			if (lastPlayer == -1 && player != 0)
 			{
@@ -612,6 +727,8 @@ static void Update()
 			}
 
 			LoadIdleAnim(_CurrentPlayer, _Anim);
+			
+			FlashMiniAtom();
 			++_Anim;
 			if (_Anim == 32)
 			{
@@ -623,10 +740,10 @@ static void Update()
 
 		case STATE_ANIMATE:
 		{			
-			_AnimTimer = 22;
+			_AnimTimer = 20;
 			_AnimCounter = 0;
 			
-			AnimateScreen();
+			AnimateScreen();			
 			break;
 		}
 
@@ -647,6 +764,7 @@ static void Update()
 
 		case STATE_END_CHECK:
 		{
+			UpdateProgress();
 			_CursorPositions[_CurrentPlayer].X = CursorX;
 			_CursorPositions[_CurrentPlayer].Y = CursorY;
 

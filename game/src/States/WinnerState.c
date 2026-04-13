@@ -108,6 +108,7 @@ static void Enter()
 	SMS_loadPSGaidencompressedTiles(winner->Tiles, 0);
 	SMS_loadSTMcompressedTileMap(0, 0, winner->Map);
 	SMS_loadBGPalette(winner->Palette);
+	SMS_setSpritePaletteColor(0, 0);
 }
 
 

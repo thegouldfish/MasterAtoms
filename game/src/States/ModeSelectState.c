@@ -14,6 +14,7 @@
 #include "ChallengeModeState.h"
 #include "HelpState.h"
 
+#include "../Audio/music.h"
 
 
 static s8 _Anim = 0;
@@ -84,6 +85,8 @@ static void Enter()
 	_Selection = 0;
 
 	MoveCursor();
+	PSGSetMusicVolumeAttenuation(01);
+	SMS_setSpritePaletteColor(0, 0);
 }
 
 
@@ -165,6 +168,17 @@ static void Update()
 
 		PSGSFXPlay(laserShoot0_psg, 3);
 	}
+	//else if (Pads[0].B == PAD_RELEASED)
+	//{
+	//	if (PSGGetStatus())
+	//	{
+	//		PSGStop();
+	//	}
+	//	else
+	//	{
+	//		PSGPlay(atoms_psg);
+	//	}
+	//}
 }
 
 
@@ -177,7 +191,7 @@ static void End()
 	SMS_zeroSpritePalette();
 
 	WaitForSFX();
-	PSGStop();
+	//PSGStop();
 }
 
 

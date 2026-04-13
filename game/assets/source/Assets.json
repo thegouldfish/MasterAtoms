@@ -98,6 +98,24 @@
 				"custom": "bin,,",
 				"RemoveDuplicates": false,
 				"MirrorTiles": false
+			},
+			{
+				"file": "atom_progress_1.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "atom_progress_2.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
+			},
+			{
+				"file": "atom_progress_3.bmp",
+				"custom": "bin,,",
+				"RemoveDuplicates": false,
+				"MirrorTiles": false
 			}
 		]
 	},

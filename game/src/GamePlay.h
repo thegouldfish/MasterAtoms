@@ -86,4 +86,7 @@ void LoadGrowAnim(u8 current, u8 animCounter);
 void RestAnims();
 
 void DrawGameGrid2();
+
+
+inline void IncrementSquare2(GridSquare* square, u8 player);
 #endif

@@ -51,8 +51,8 @@ static void Enter()
 	
 	_currentPal = 11;
 	SetPal();
-	//PSGPlay(atoms_psg);
-	//PSGSetMusicVolumeAttenuation(01);
+	SMS_setSpritePaletteColor(0, 0);
+	//PSGPlay(atoms_psg);	
 }
 
 

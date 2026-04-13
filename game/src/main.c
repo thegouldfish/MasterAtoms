@@ -28,15 +28,15 @@ void main (void)
 	SMS_displayOn();
 	for (;;)
 	{
-		RndPump++;
+		RndPump++;		
+
+		SMS_waitForVBlank();
+		UpdatePads();
 		StateMachineUpdate(&GameMachineState);
 
-		SMS_waitForVBlank();		
 		PSGFrame();
 		PSGSFXFrame();
-		UpdatePads();
 		
-
 		SMS_copySpritestoSAT();
 	}
 }

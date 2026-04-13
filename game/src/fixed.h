@@ -2,25 +2,25 @@
 #define _FIXED_H_
 #include "sms.h"
 
-// Based on the SGDK's Fixed point math library
-typedef s32 fix32;
+// Based on the SGDK Fixed number library
+typedef s16 fixed;
 
-#define FIX32_INT_BITS              22
-#define FIX32_FRAC_BITS             (32 - FIX32_INT_BITS)
-#define FIX32_INT_MASK              (((1 << FIX32_INT_BITS) - 1) << FIX32_FRAC_BITS)
-#define FIX32_FRAC_MASK             ((1 << FIX32_FRAC_BITS) - 1)
-
-
-#define FIX32(value)                ((fix32) ((value) * (1 << FIX32_FRAC_BITS)))
+#define FIXED_INT_BITS              8
+#define FIXED_FRAC_BITS             (16 - FIXED_INT_BITS)
+#define FIXED_INT_MASK              (((1 << FIXED_INT_BITS) - 1) << FIXED_FRAC_BITS)
+#define FIXED_FRAC_MASK             ((1 << FIXED_FRAC_BITS) - 1)
 
 
-#define FIX32_FROM_INT(value)       (value << FIX32_FRAC_BITS)
+#define FIXED(value)                ((fixed) ((value) * (1 << FIXED_FRAC_BITS)))
 
 
-fix32 F32_div(fix32 val1, fix32 val2);
-fix32 F32_mul(fix32 val1, fix32 val2);
-s32 F32_toInt(fix32 value);
-fix32 F32_fromInt(s32 value);
-fix32 F32_frac(s32 value);
+#define FIXED_FROM_INT(value)       (value << FIXED_FRAC_BITS)
+
+
+fixed Fixed_div(fixed val1, fixed val2);
+fixed Fixed_mul(fixed val1, fixed val2);
+fixed Fixed_toInt(fixed value);
+fixed Fixed_fromInt(fixed value);
+fixed Fixed_frac(fixed value);
 
 #endif

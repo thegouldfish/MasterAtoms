@@ -96,15 +96,15 @@ void LoadGrowAnim(u8 current, u8 animCounter)
 	{
 		SMS_loadTiles(_GrowTiles[current - 1][0], ANIMATED_TILE_INDEX + _TileOffset[current] + 20, p1_grow_anim_1_tiles_bin_size);
 	}
-	else if (animCounter == 6)
+	else if (animCounter == 5)//6
 	{
 		SMS_loadTiles(_GrowTiles[current - 1][1], ANIMATED_TILE_INDEX + _TileOffset[current] + 20, p1_grow_anim_1_tiles_bin_size);
 	}
-	else if (animCounter == 12)
+	else if (animCounter == 10) //12
 	{
 		SMS_loadTiles(_GrowTiles[current - 1][2], ANIMATED_TILE_INDEX + _TileOffset[current] + 20, p1_grow_anim_1_tiles_bin_size);
 	}
-	else if (animCounter == 18)
+	else if (animCounter == 15) //18
 	{
 		SMS_loadTiles(_GrowTiles[current - 1][3], ANIMATED_TILE_INDEX + _TileOffset[current] + 20, p1_grow_anim_1_tiles_bin_size);
 	}
@@ -192,13 +192,23 @@ void IncrementSquare(u8 x, u8 y, u8 player)
 	_PlayerGrid[square].Player = player;
 }
 
+inline void IncrementSquare2(GridSquare* square, u8 player)
+{
+	square->GrowSize++;
+	square->Changed = 1;
+	square->Player = player;
+}
+
 u8 TryIncrementSquare(u8 x, u8 y, u8 player)
 {
 	u8 square = (y * 10) + x;
 
 	if (_PlayerGrid[square].Player == player || _PlayerGrid[square].Player == 0)
 	{
-		IncrementSquare(x, y, player);
+		_PlayerGrid[square].GrowSize++;
+		_PlayerGrid[square].Changed = 1;
+		_PlayerGrid[square].Player = player;
+
 		return TRUE;
 	}
 
